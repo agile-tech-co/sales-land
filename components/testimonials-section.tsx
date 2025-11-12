@@ -1,52 +1,58 @@
-"use client";
-
-import { motion } from "framer-motion";
+import Image from "next/image";
 import React from "react";
+import BergPneus from "../public/clients/berg-pneus.png";
+import AcoShopping from "../public/clients/aco-shopping.png";
+import CatarinaLeal from "../public/clients/catarina-leal.png";
+import Gllad from "../public/clients/gllad.png";
+import Unidental from "../public/clients/unidental.png";
 
-function TestimonialsSection() {
+const clients = [
+  { name: "Berg Pneus", image: BergPneus },
+  { name: "Aço Shopping", image: AcoShopping },
+  { name: "Catarina Leal", image: CatarinaLeal },
+  { name: "GLLAD", image: Gllad },
+  { name: "Unidental", image: Unidental },
+];
+
+type ClientCardProps = {
+  name: string;
+  image: any;
+};
+
+const ClientCard = ({ name, image }: ClientCardProps) => (
+  <div className="flex-shrink-0 w-[400px] h-[450px] py-4 mx-4 bg-slate-800 border border-slate-700 rounded-lg shadow-lg flex flex-col items-center justify-center">
+    <div className="relative w-[350px] h-[350px] rounded-md mb-4 overflow-hidden">
+      <Image
+        src={image}
+        alt={`Print do Instagram de ${name}`}
+        layout="fill"
+        objectFit="cover" 
+      />
+    </div>
+
+    <h3 className="text-white text-xl font-semibold text-center">{name}</h3>
+  </div>
+);
+
+function CompaniesSection() {
   return (
-    <section className="py-20 sm:py-22 backdrop-blur-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white text-center mb-12">
-          Loved by developers worldwide
+    <section className="py-16 sm:py-24 bg-transparent text-white" id="showcase">
+      <div className="container mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-12">
+          Empresas automatizadas e alavancadas pela SALES LAND
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "John Doe",
-              role: "Frontend Developer",
-              quote:
-                "Tailwind CSS has completely revolutionized my workflow. It's intuitive, flexible, and incredibly powerful.",
-            },
-            {
-              name: "Jane Smith",
-              role: "UI/UX Designer",
-              quote:
-                "As a designer, I love how Tailwind allows me to quickly prototype and iterate on designs without leaving my HTML.",
-            },
-            {
-              name: "Mike Johnson",
-              role: "Full Stack Developer",
-              quote:
-                "The utility-first approach of Tailwind has made my projects more maintainable and significantly faster to develop.",
-            },
-          ].map((testimonial, index) => (
-            <motion.div
-              key={index}
-              className="bg-slate-700 rounded-lg p-6 shadow-lg hover:bg-slate-600 transition-colors"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <p className="text-slate-300 mb-4">"{testimonial.quote}"</p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-slate-600 rounded-full mr-4"></div>
-                <div>
-                  <p className="font-semibold text-white">{testimonial.name}</p>
-                  <p className="text-slate-400">{testimonial.role}</p>
-                </div>
-              </div>
-            </motion.div>
+      </div>
+
+      <div
+        className="relative w-full overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+        }}
+      >
+        <div className="flex w-max animate-scroll-infinite">
+          {[...clients, ...clients].map((client, index) => (
+            <ClientCard key={`${client.name}-${index}`} name={client.name} image={client.image} />
           ))}
         </div>
       </div>
@@ -54,4 +60,4 @@ function TestimonialsSection() {
   );
 }
 
-export default TestimonialsSection;
+export default CompaniesSection;
