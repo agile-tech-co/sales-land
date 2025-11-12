@@ -1,12 +1,19 @@
 import React from "react";
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
 import { Button } from "./ui/button";
+import logo from "../public/logo-png.png";
+import Image from "next/image";
 
 export function HeroSection() {
   return (
     <BackgroundBeamsWithCollision>
-      
-      <div className="flex flex-col justify-center gap-4 py-12 px-4">
+      <div className="flex flex-col items-center justify-center py-12 px-4">
+        <Image
+          src={logo}
+          alt="Logo"
+          width={300}
+          className="mb-5"
+        />
         <h2
           className="
             text-2xl sm:text-3xl lg:text-4xl /* 1. Tamanho de fonte responsivo */
@@ -39,9 +46,10 @@ export function HeroSection() {
             flex flex-col sm:flex-row justify-center gap-4 
             w-full max-w-md /* 4. Largura do contêiner do botão */
             mx-auto py-2
+            mt-4 /* 3. Adicionada margem superior para manter o espaço do botão */
           "
         >
-          <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+          <Button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
             <span
               className="
@@ -53,7 +61,7 @@ export function HeroSection() {
             >
               QUERO APLICAR PARA O MEU NEGÓCIO
             </span>
-          </button>
+          </Button>
         </div>
       </div>
     </BackgroundBeamsWithCollision>
