@@ -59,7 +59,7 @@ function WhyUsSection() {
         
         {/* Título da Seção */}
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white text-center mb-12 sm:mb-16">
-          Por que a Sales Land??
+          Por que a Sales Land?
         </h2>
 
         {/* Grid com os Pontos Fortes */}

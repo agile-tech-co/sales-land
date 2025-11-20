@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import Logo from "../public/logo-png.png";
+import Logo from "../public/logo.png";
 import Image from "next/image";
 
 function SiteHeader() {
@@ -31,16 +31,16 @@ function SiteHeader() {
             Soluções
           </Link>
           <Link
-            href="#form-section"
-            className="text-slate-400 hover:text-white transition-colors"
-          >
-            Cadastro
-          </Link>
-          <Link
             href="#showcase"
             className="text-slate-400 hover:text-white transition-colors"
           >
             Showcase
+          </Link>
+          <Link
+            href="#form-section"
+            className="text-slate-400 hover:text-white transition-colors"
+          >
+            Cadastro
           </Link>
           <Link
             href="#about"
