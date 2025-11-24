@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Button } from "./ui/button";
 
+// --- Funções Auxiliares ---
+
 const cleanPhoneNumber = (value: string) => {
   return value.replace(/\D/g, '');
 };
@@ -30,6 +32,9 @@ const formatPhoneNumber = (value: string) => {
   return cleaned;
 };
 
+// --- Tipagem (Resolvendo o Erro de Compilação) ---
+
+// A interface deve vir antes do componente que a utiliza.
 type FormInputProps = {
   id: string;
   type?: string;
@@ -39,6 +44,9 @@ type FormInputProps = {
   isInvalid?: boolean;
 };
 
+// --- Componente FormInput ---
+
+// Agora o TypeScript conhece o tipo FormInputProps e não dá o erro 'any' implícito.
 const FormInput = ({ id, type = "text", placeholder, value, onChange, isInvalid = false }: FormInputProps) => (
   <div>
     <label htmlFor={id} className="sr-only">
@@ -57,6 +65,8 @@ const FormInput = ({ id, type = "text", placeholder, value, onChange, isInvalid 
     />
   </div>
 );
+
+// --- Componente Principal (FormSection) ---
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJDvVn5N1WYK0cTO9ToPGlzXpTgCPAAk5MVssKwtC4m2DlGnT4VW2kwJpOYl1CjupnkQ/exec";
 
@@ -94,6 +104,13 @@ function FormSection() {
     const cleanedPhone = cleanPhoneNumber(formData.telefone);
     let isValid = true;
 
+    // Garante que o campo nome e negócio não estejam vazios (adicionado verificação básica)
+    if (formData.nome.trim() === '' || formData.negocio.trim() === '') {
+        isValid = false;
+        // Poderia adicionar erros visuais para nome/negocio aqui, se necessário.
+    }
+
+    // Validação do telefone
     if (cleanedPhone.length !== 10 && cleanedPhone.length !== 11) {
       setErrors(prev => ({ ...prev, telefone: true }));
       isValid = false;
@@ -109,6 +126,11 @@ function FormSection() {
 
     if (!validateForm()) {
       setSubmissionStatus('error_validation');
+      // Reseta o status de erro após um tempo, se não for erro de validação de telefone (já está visível)
+      if (errors.telefone) {
+          return;
+      }
+      setTimeout(() => setSubmissionStatus(""), 5000);
       return; 
     }
 
@@ -133,7 +155,7 @@ function FormSection() {
         const result = await response.json();
         if (result.result === 'success') {
             setSubmissionStatus('success');
-            setFormData({ nome: '', telefone: '', negocio: '' });
+            setFormData({ nome: '', telefone: '', negocio: '' }); // Limpa o formulário
         } else {
             setSubmissionStatus('error');
             console.error('Erro no Apps Script:', result.message);
@@ -148,6 +170,10 @@ function FormSection() {
       console.error('Erro ao enviar o formulário:', error);
     } finally {
       setIsSubmitting(false);
+      // Limpa a mensagem de status após alguns segundos (exceto sucesso, que limpa o form)
+      if (submissionStatus !== 'success') {
+          setTimeout(() => setSubmissionStatus(""), 5000);
+      }
     }
   };
 
@@ -184,6 +210,7 @@ function FormSection() {
                 placeholder="SEU NOME" 
                 value={formData.nome}
                 onChange={handleChange}
+                // isInvalid={formData.nome.trim() === '' && submissionStatus === 'error_validation'} // Adicione esta validação se quiser
               />
               
               <FormInput 
@@ -206,6 +233,7 @@ function FormSection() {
                 placeholder="NOME DO SEU NEGÓCIO" 
                 value={formData.negocio}
                 onChange={handleChange}
+                // isInvalid={formData.negocio.trim() === '' && submissionStatus === 'error_validation'} // Adicione esta validação se quiser
               />
 
               {submissionStatus === 'success' && (
@@ -220,7 +248,7 @@ function FormSection() {
               )}
               {submissionStatus === 'error_validation' && !errors.telefone && (
                   <p className="text-red-400 font-semibold text-center">
-                      Por favor, corrija os campos destacados e tente novamente.
+                      Por favor, preencha todos os campos obrigatórios.
                   </p>
               )}
 
